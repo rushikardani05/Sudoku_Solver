@@ -17,10 +17,8 @@ def solve_sudoku(grid):
     return False
 
 def is_valid(grid, num, row, col):
-    # Check row and column
     if any(grid[row][x] == num for x in range(9)) or any(grid[x][col] == num for x in range(9)):
         return False
-    # Check 3x3 box
     box_row, box_col = row - row % 3, col - col % 3
     for r in range(box_row, box_row + 3):
         for c in range(box_col, box_col + 3):
@@ -74,7 +72,7 @@ def clear():
 # GUI setup
 root = tk.Tk()
 root.title("Sudoku Solver")
-root.geometry("450x500")
+root.geometry("450x520")
 root.configure(bg="#f9f9f9")
 
 tk.Label(root, text="Sudoku Solver", font=("Arial", 16, "bold"), bg="#f9f9f9").pack(pady=10)
@@ -86,8 +84,18 @@ entries = []
 for i in range(9):
     row_entries = []
     for j in range(9):
-        e = tk.Entry(frame, width=3, font=("Arial", 14), justify="center")
-        e.grid(row=i, column=j, padx=2, pady=2)
+        e = tk.Entry(frame, width=3, font=("Arial", 14), justify="center", bd=2, relief="solid")
+
+        # Add bold border for 3x3 block separation
+        if i in [3, 6]:
+            e.grid(row=i, column=j, padx=(2, 2), pady=(6, 2))
+        elif j in [3, 6]:
+            e.grid(row=i, column=j, padx=(6, 2), pady=(2, 2))
+        elif i in [3, 6] and j in [3, 6]:
+            e.grid(row=i, column=j, padx=(6, 2), pady=(6, 2))
+        else:
+            e.grid(row=i, column=j, padx=2, pady=2)
+
         row_entries.append(e)
     entries.append(row_entries)
 
